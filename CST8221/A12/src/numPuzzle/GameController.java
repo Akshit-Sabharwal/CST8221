@@ -61,7 +61,7 @@ public class GameController implements ActionListener {
 	 * objects used for drawing tiles
 	 *
 	 */
-	protected GameGrid obj;
+	private GameGrid obj;
 	/**
 	 * image icons
 	 */
@@ -313,7 +313,8 @@ public class GameController implements ActionListener {
 			}
 		});
 
-		image = new ImageIcon("src\\numPuzzle\\gamelogo.png");
+		//image = new ImageIcon("src\\numPuzzle\\gamelogo.png");
+		image = new ImageIcon(getClass().getClassLoader().getResource("gamelogo.png"));
 		/*
 		 * labels defined
 		 */
@@ -440,7 +441,7 @@ public class GameController implements ActionListener {
 
 		frame.setTitle("Number Puzzle");
 		try {
-			frame.setIconImage(ImageIO.read(new File("src\\numPuzzle\\puzz.png")));
+			frame.setIconImage(ImageIO.read(getClass().getClassLoader().getResource("puzz.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -519,11 +520,11 @@ public class GameController implements ActionListener {
 			frame1 = new JFrame();
 			frame1.setLayout(new BorderLayout());
 			try {
-				frame1.setIconImage(ImageIO.read(new File("src\\numPuzzle\\puzz.png")));
+				frame1.setIconImage(ImageIO.read(getClass().getClassLoader().getResource("puzz.png")));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			frame1.setContentPane(new JLabel(new ImageIcon("src\\numPuzzle\\gameend.png")));
+			frame1.setContentPane(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("gameend.png"))));
 			label.setPreferredSize(new Dimension(700, 1000));
 			frame1.pack();
 			frame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -534,11 +535,11 @@ public class GameController implements ActionListener {
 			frame1 = new JFrame();
 			frame1.setLayout(new BorderLayout());
 			try {
-				frame1.setIconImage(ImageIO.read(new File("src\\numPuzzle\\puzz.png")));
+				frame1.setIconImage(ImageIO.read(getClass().getClassLoader().getResource("puzz.png")));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			frame1.setContentPane(new JLabel(new ImageIcon("src\\numPuzzle\\gameabout.png")));
+			frame1.setContentPane(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("gameabout.png"))));
 			label.setPreferredSize(new Dimension(700, 1000));
 			frame1.pack();
 			frame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
