@@ -14,8 +14,11 @@ package numPuzzle;
  * @version 1.1
  */
 public class Main  {
-
-   /*This is entry point for our application*/
+  /**
+	 *  This is entry point for our application
+	 * @param args accepts arguments for running program
+	 */
+    /*This is entry point for our application*/
 	public static void main(String[] args) {
 
 	GameController gc = new GameController();					//calls game controller object.

@@ -14,7 +14,7 @@ SET SRCDIR=src
 SET BINDIR=bin
 SET BINOUT=numPuzzle-javac.out
 SET BINERR=numPuzzle-javac.err
-SET JARNAME=CST8221.jar
+SET JARNAME=NumPuzzle.jar
 SET JAROUT=NumPuzzle-jar.out
 SET JARERR=NumPuzzle-jar.err
 SET DOCDIR=doc
@@ -40,17 +40,12 @@ ECHO "|_________________________________|"
 ECHO "                                   "
 ECHO "[ASSIGNMENT SCRIPT ---------------]"
 
-ECHO "1. Compiling ......................"
-javac -cp ".;%SRCDIR%/*" %MAINCLASSSRC% -d %BINDIR% > %BINOUT% 2> %BINERR%
 
-:: ECHO "Running  ........................."
-:: start java -cp ".;%BINDIR%/*" %MAINCLASSBIN%
-
-ECHO "2. Creating Javadoc ..............."
+ECHO "1. Creating Javadoc ..............."
 javadoc -cp ".;%BINDIR%/*" -d %DOCDIR% -sourcepath %SRCDIR% -subpackages %DOCPACK% > %DOCOUT% 2> %DOCERR%
 
 cd src
-ECHO "3. Running Jar ...................."
+ECHO "2. Running Jar ...................."
 start  %JARNAME%
 cd ..
 
