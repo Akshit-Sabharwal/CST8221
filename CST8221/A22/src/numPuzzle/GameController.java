@@ -126,7 +126,7 @@ public class GameController extends JFrame implements ActionListener {
 					model.setMinutes(0);
 					model.setSeconds(0);
 					check = false;
-
+                    view.getDesign().doClick();
 				}
 			}
 		};
