@@ -114,11 +114,7 @@ public class GameController extends JFrame implements ActionListener {
 				view.getTfPoints().setText(String.format(" %02d", model.points));
 				if (model.points == view.getGridObject().getNumTiles()) {
 					view.getWinDialog().setVisible(true);
-					try {
-						Thread.sleep(3000);
-					} catch (InterruptedException e) {
-						throw new RuntimeException(e);
-					}
+
 					timerTask.cancel();
 					timerTask1.cancel();
 
@@ -130,9 +126,6 @@ public class GameController extends JFrame implements ActionListener {
 					model.setMinutes(0);
 					model.setSeconds(0);
 					check = false;
-
-					view.getWinDialog().setVisible(false);
-					view.getPlay().doClick();
 
 				}
 			}
@@ -189,8 +182,11 @@ public class GameController extends JFrame implements ActionListener {
 		int numTiles;
 		if (e.getSource() == view.getDimComboBox() || e.getSource() == view.getTypeComboBox()) {  //defines action for comboboxes
 			String text1 = view.getTfLetters().getText();
-
-
+			
+			if(text1 == null || text1.length() == 0) {
+				text1 = model.defaultText;
+				view.getTfLetters().setText(text1);
+			}
 			int lenStr = text1.length();
 			int length = (int) view.getDimComboBox().getSelectedItem() * (int) view.getDimComboBox().getSelectedItem();
 			view.setArr(new int[length]);
@@ -204,6 +200,7 @@ public class GameController extends JFrame implements ActionListener {
 				}
 			}
 			view.redefineFrame((int) view.getDimComboBox().getSelectedItem(), false);
+			view.getGridObject().shuffle();
 			if (newColor != null) {
 				view.getGridObject().setColored(newColor);
 			}
@@ -233,12 +230,17 @@ public class GameController extends JFrame implements ActionListener {
 			if (e.getSource() == view.getShow()) {
 				view.getTf().setText("");
 				view.getTf().append("Show ...\n");
+				printElements();
 			} else {
 				view.getTf().setText("");
 				view.getTf().append("Solution ...\n");
-
+                 if(!view.getDesign().isEnabled()) {
+					 printElements();
+				 }
+				view.getDesign().doClick();
 			}
-			printElements();
+
+
 		} else if (e.getSource() == view.getHide()) {   //defines the action for hide
 			if(!view.getGridObject().show){
 				return;
@@ -269,7 +271,8 @@ public class GameController extends JFrame implements ActionListener {
 		} else if (e.getSource() == view.getDesign()) {  //defines the action for design
 			designMode();
 			playMode = false;
-			view.redefineFrame((int) view.getDimComboBox().getSelectedItem(), false);
+			view.getGridObject().playMode = false;
+			//view.redefineFrame((int) view.getDimComboBox().getSelectedItem(), false);
 			timerTask.cancel();
 			timerTask1.cancel();
 
@@ -319,6 +322,7 @@ public class GameController extends JFrame implements ActionListener {
 			}
 			view.redefineFrame((int) view.getDimComboBox().getSelectedItem(), false);
 			view.getGridObject().configure();
+			view.getGridObject().playMode = true;
 
 			if (newColor != null) {
 				view.getGridObject().setColored(newColor);
@@ -335,8 +339,7 @@ public class GameController extends JFrame implements ActionListener {
 
 			view.getTf().setText("");
 			view.getTf().append("Finish...\n");
-
-			view.getNew_item().doClick();
+			view.getGridObject().playMode=false;
 		} else if (e.getSource() == view.getAbout()) {
 			view.getTf().setText("");
 			view.getAboutDialog().setVisible(true);
@@ -484,18 +487,19 @@ public class GameController extends JFrame implements ActionListener {
 		view.getDesign().setForeground(Color.gray);
 		view.getDesign().setEnabled(false);
 		view.getPlay().setForeground(Color.white);
+		view.getPlay().setEnabled(true);
 		view.getRand().setForeground(Color.gray);
 		view.getRand().setEnabled(false);
-		view.getLoad().setForeground(Color.white);
-		view.getLoad().setEnabled(true);
+		view.getLoad().setForeground(Color.gray);
+		view.getLoad().setEnabled(false);
 		view.getSave().setForeground(Color.gray);
 		view.getSave().setEnabled(false);
 		view.getFinish().setForeground(Color.gray);
 		view.getFinish().setEnabled(false);
-		view.getShow().setForeground(Color.gray);
-		view.getShow().setEnabled(false);
-		view.getHide().setForeground(Color.gray);
-		view.getHide().setEnabled(false);
+		view.getShow().setForeground(Color.white);
+		view.getShow().setEnabled(true);
+		view.getHide().setForeground(Color.white);
+		view.getHide().setEnabled(true);
 		view.getDimComboBox().setEnabled(true);
 		view.getTypeComboBox().setEnabled(true);
 		view.getColor1().setForeground(Color.white);
@@ -513,18 +517,19 @@ public class GameController extends JFrame implements ActionListener {
 		view.getDesign().setForeground(Color.white);
 		view.getDesign().setEnabled(true);
 		view.getPlay().setForeground(Color.gray);
+		view.getPlay().setEnabled(false);
 		view.getRand().setForeground(Color.white);
 		view.getRand().setEnabled(true);
-		view.getLoad().setForeground(Color.gray);
-		view.getLoad().setEnabled(false);
+		view.getLoad().setForeground(Color.white);
+		view.getLoad().setEnabled(true);
 		view.getSave().setForeground(Color.white);
 		view.getSave().setEnabled(true);
 		view.getFinish().setForeground(Color.white);
 		view.getFinish().setEnabled(true);
-		view.getShow().setForeground(Color.white);
-		view.getShow().setEnabled(true);
-		view.getHide().setForeground(Color.white);
-		view.getHide().setEnabled(true);
+		view.getShow().setForeground(Color.gray);
+		view.getShow().setEnabled(false);
+		view.getHide().setForeground(Color.gray);
+		view.getHide().setEnabled(false);
 		view.getDimComboBox().setEnabled(false);
 		view.getTypeComboBox().setEnabled(false);
 		view.getTfLetters().setEnabled(false);
@@ -565,3 +570,5 @@ public class GameController extends JFrame implements ActionListener {
 		}
 	}
 }
+
+

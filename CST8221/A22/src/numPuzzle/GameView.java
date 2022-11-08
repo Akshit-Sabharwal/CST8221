@@ -101,7 +101,7 @@ public class GameView extends JWindow {
 	/**
 	 * for dimensions
 	 */
-	private Integer[] dimension = { 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	private Integer[] dimension = { 3, 4, 5, 6, 7, 8, 9, 10 };
 	/**
 	 * combobox for dimensions
 	 */
@@ -131,7 +131,7 @@ public class GameView extends JWindow {
 	/**
 	 * initialise array
 	 */
-	private int[] arr = new int[36];
+	private int[] arr = new int[9];
 
 	/**
 	 * splashscreen image
@@ -209,7 +209,7 @@ public class GameView extends JWindow {
 	 */
 	protected void configure() {
 
-		this.dimComboBox.setSelectedIndex(4);
+		this.dimComboBox.setSelectedIndex(0);
 
 		menuBar = new JMenuBar();
 		menu = new JMenu("Menu");
@@ -391,9 +391,9 @@ public class GameView extends JWindow {
 		for (int i = 0; i < arr.length; i++)
 			arr[i] = 1+i;
 
-		setObj(new GameGrid(6, arr, arr, false, false, true, gameModel));
+		setObj(new GameGrid(3, arr, arr, false, true, false, gameModel,false));
 
-
+gameGrid.shuffle();
 		panel1.setPreferredSize(new Dimension(200, 300));
 		panel1.setBorder(BorderFactory.createEmptyBorder(0, 00, 0, 00));
 		panel1.setBackground(new Color(8, 26, 42));
@@ -936,19 +936,19 @@ public class GameView extends JWindow {
 	public void redefineFrame(int num, boolean show) {
 
 		panel2.removeAll();
-
+		boolean playMode = !play.isEnabled();
 		if (getTypeComboBox().getSelectedItem() == "Numbers") {
 			int[] numArray = new int[num * num];
 			for (int i = 0; i < (num * num) - 1; i++) {
 				numArray[i] = i + 1;
 			}
-			gameGrid = new GameGrid(num, numArray, numArray, false, show, false, gameModel);
+			gameGrid = new GameGrid(num, numArray,numArray, false, show, false, gameModel,playMode);
 			gl2.setHorizontalGroup(gl2.createParallelGroup().addComponent(getGridObject()));
 			gl2.setVerticalGroup(gl2.createSequentialGroup().addComponent(getGridObject()));
 		} else {
 			getTfLetters().removeAll();
-			
-			gameGrid = (new GameGrid(num, arr, arr, true, show, false, gameModel));
+
+			gameGrid = (new GameGrid(num, arr, arr, true, show, false, gameModel, playMode));
 			gl2.setHorizontalGroup(gl2.createParallelGroup().addComponent(getGridObject()).addGroup(gl2.createSequentialGroup()
 					.addGroup(gl2.createParallelGroup().addComponent(text)).addComponent(getTfLetters()))
 
@@ -973,14 +973,18 @@ public class GameView extends JWindow {
 	public void redefineFrame_1(int num, int[] arr, int[] arr1, boolean check, boolean show) {
 
 		panel2.removeAll();
-
+        boolean playMode = !play.isEnabled();
 		if (check == false) {
-			gameGrid = new GameGrid(num, arr, arr1, check, show, true, gameModel);
+
+			gameGrid = new GameGrid(num, arr, arr1, check, show, true, gameModel, playMode);
+			gameGrid.configure();
 			gl2.setHorizontalGroup(gl2.createParallelGroup().addComponent(getGridObject()));
 			gl2.setVerticalGroup(gl2.createSequentialGroup().addComponent(getGridObject()));
 		} else {
 			getTfLetters().removeAll();
-			gameGrid = new GameGrid(num, arr, arr1, check, show, true, gameModel);
+
+			gameGrid = new GameGrid(num, arr, arr1, check, show, true, gameModel, playMode);
+			gameGrid.configure();
 			gl2.setHorizontalGroup(gl2.createParallelGroup().addComponent(getGridObject()).addGroup(gl2.createSequentialGroup()
 					.addGroup(gl2.createParallelGroup().addComponent(text)).addComponent(getTfLetters()))
 

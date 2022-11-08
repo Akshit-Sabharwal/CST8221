@@ -97,6 +97,10 @@ public class GameGrid extends JPanel {
 	private boolean load;
 
 	/**
+	 * to check if its playMode or not
+	 */
+	protected boolean playMode;
+	/**
 	 * color of tiles
 	 */
 	private Color coloredTile = Color.gray;
@@ -141,23 +145,29 @@ public class GameGrid extends JPanel {
 	 * @param show      show - to show the solution
 	 * @param load      to load the file
 	 * @param model     model object
+	 * @param playMode  true - if playmode else false
 	 */
-	public GameGrid(int dimension, int[] arr, int[] arr1, boolean check, boolean show, boolean load, GameModel model) {
+	public GameGrid(int dimension, int[] arr, int[] arr1, boolean check, boolean show, boolean load, GameModel model, boolean playMode) {
 
 		this.dimension = dimension; // defines dimensions
 		this.setCheck(check);
 		this.show = show;
 		this.load = load;
 		gameModel = model;
-
+   this.playMode = playMode;
 
 		numTiles = dimension * dimension - 1;
 		elements = new int[dimension * dimension]; // Initialize element array
 		tempArr = new int[dimension * dimension];
 
 
-		for (int i = 0; i < arr.length - 1; i++)
-			elements[i] = arr[i];
+		if (load == false) {
+			for (int i = 0; i < arr.length - 1; i++)
+				elements[i] = arr[i];
+		} else {
+			for (int i = 0; i < arr.length; i++)
+				elements[i] = arr[i];
+		}
 
 		for (int i = 0; i < arr.length - 1; i++)
 			tempArr[i] = arr1[i];
@@ -219,13 +229,15 @@ public class GameGrid extends JPanel {
 
 
 					int clickPos = clickedRow * dimension + clickedCol;
-					if(isTileMovable(clickedRow,clickedCol))
-						moveTile(clickPos);
+					if(playMode){
+						if(isTileMovable(clickedRow,clickedCol))
+							moveTile(clickPos);
 
-					gameFinished = solved();
+						gameFinished = solved();
+						countPoints();
+					}
+
 				}
-
-				countPoints();
 
 				repaint();
 			}
@@ -236,7 +248,9 @@ public class GameGrid extends JPanel {
 		}else {
 			show = false;
 			gameFinished = false;
-			blankCell = elements.length - 1;
+			for (int i = 0; i < elements.length; i++)
+				if (elements[i] == 0)
+					blankCell = i;
 		}
 	}
 
@@ -287,6 +301,7 @@ public class GameGrid extends JPanel {
 			if (!show) {
 				shuffle(); // shuffle
 			}
+
 			countPoints();
 		} while (!isGameSolvable());
 
